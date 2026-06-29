@@ -1,5 +1,7 @@
 import mongoose from "mongoose"
-mongoose.connect("mongodb://localhost:27017/app");
+import dotenv from "dotenv"
+dotenv.config();
+mongoose.connect(`${process.env.MONGO_URL}`||"mongodb://localhost:27017/app");
 
 
 

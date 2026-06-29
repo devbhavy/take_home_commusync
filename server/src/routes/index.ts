@@ -7,7 +7,9 @@ const rootRouter = express.Router();
 
 rootRouter.get("/fetch-todos",async function(req,res){
     try{
-        const todos = await todo.find();
+        const todos = await todo.find({
+            visible :true
+        });
         return res.status(200).json({
             todos  
         })
@@ -75,8 +77,25 @@ rootRouter.delete("/remove-todo/:id",async function(req,res){
     
 })
 
-rootRouter.put("/",function(req,res){
-    
+rootRouter.put("/mark-complete/:id",async function(req,res){
+    const id = req.params.id;
+    try{
+        await todo.updateOne({
+            _id : id
+        },{
+            completed : true
+
+        })
+
+        res.json({
+            msg : "success"
+        })
+    }catch(err){
+        res.status(500).json({
+            msg : "internal server error"
+        })
+
+    }
 })
 
 
