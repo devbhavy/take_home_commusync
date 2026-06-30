@@ -2,7 +2,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Pixelify_Sans } from "next/font/google";
 
-const jetbrains = JetBrains_Mono({
+export const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
 });

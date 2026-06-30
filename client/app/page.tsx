@@ -1,7 +1,7 @@
 "use client"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { pixel } from "./layout";
+import { jetbrains, pixel } from "./layout";
 
 interface inputType{
   title : string,
@@ -87,7 +87,7 @@ export default function App(){
 
 
   return(
-    <div className="h-lvh bg-black font-mono-custom flex justify-center items-center">
+    <div className={"h-lvh bg-black flex justify-center items-center "+jetbrains.className}>
       <div className="bg-white inline-block p-5 rounded-2xl">
       <div className={"text-5xl font-bold text-white bg-black p-2 " + pixel.className}>
        Mini Task Manager
