@@ -102,7 +102,11 @@ export default function App(){
         {
           loading?<div>loading...</div>
           :
-          todos?<div className="max-h-80 overflow-y-auto border-2">
+          todos?
+          todos.length==0?<div className="border-2">
+            Create a Todo to see it here!
+          </div>:
+          <div className="max-h-80 overflow-y-auto border-2">
           {
             todos.map((todo:any,index)=>{
               return (
