@@ -95,10 +95,10 @@ export default function App(){
       <form onSubmit={handleSubmit} className="my-2 flex flex-col gap-2">
         <div><input name="title" placeholder="Enter a Title" onChange={handleChange} value={input.title} className="border-2 p-1" required></input></div>
         <div><input name="description" placeholder="Enter a Description" onChange={handleChange} value={input.description} className="border-2 p-1" required></input></div>
-        <div><button type="submit" className="border-2 p-1 rounded-full">Add todo</button></div>
+        <div><button type="submit" className="border-2 p-1 rounded-full hover:bg-green-400 cursor-pointer">Add todo</button></div>
       </form>
       <div>
-        <div>todos :</div>
+        <div className="font-bold underline">Todos :</div>
         {
           loading?<div>loading...</div>
           :
@@ -116,7 +116,7 @@ export default function App(){
                   {
                     (!todo.completed)?<div>
                       <button onClick={()=>handlePut(todo._id)} className="border-2 p-1 rounded-full hover:bg-green-400 cursor-pointer">mark as complete</button>
-                    </div> : <div>
+                    </div> : <div className="font-bold">
                       Done!
                     </div>
                   }
