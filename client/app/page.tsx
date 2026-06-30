@@ -12,6 +12,28 @@ export default function App(){
   const [loading,setLoading] = useState(false);
   const [todos,setTodos] = useState([]);
 
+  const [pageLoader,setLoader] = useState(false);
+  const [status,setStatus] = useState(false)
+
+
+  useEffect(()=>{
+    (async ()=>{
+      setLoader(true);
+      try{
+        console.log("hi there")
+        await axios.get(`${process.env.NEXT_PUBLIC_API_URL}`);
+        setStatus(true);
+      }catch(err){
+        alert("error occurred fetching the backend");
+      }finally{
+        setLoader(false);
+      }
+    })()
+    
+    
+
+  },[])
+
   const [input,setInput] = useState<inputType>({
     title : "",
     description : ""
@@ -92,49 +114,68 @@ export default function App(){
       <div className={"text-5xl font-bold text-white bg-black p-2 " + pixel.className}>
        Mini Task Manager
       </div>
-      <form onSubmit={handleSubmit} className="my-2 flex flex-col gap-2">
-        <div><input name="title" placeholder="Enter a Title" onChange={handleChange} value={input.title} className="border-2 p-1" required></input></div>
-        <div><input name="description" placeholder="Enter a Description" onChange={handleChange} value={input.description} className="border-2 p-1" required></input></div>
-        <div><button type="submit" className="border-2 p-1 rounded-full hover:bg-green-400 cursor-pointer">Add todo</button></div>
-      </form>
+      {
+        pageLoader?<div className="flex justify-center py-8">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-black border-t-transparent"></div>
+      </div>:!status?<div>
+        Error occurred fetching the backend!
+      </div>:
+
+
+
+
+      
+
+
+
+
       <div>
-        <div className="font-bold underline">Todos :</div>
-        {
-          loading?<div>loading...</div>
-          :
-          todos?
-          todos.length==0?<div className="border-2">
-            Create a Todo to see it here!
-          </div>:
-          <div className="max-h-80 overflow-y-auto border-2">
-          {
-            todos.map((todo:any,index)=>{
-              return (
-                <div key={index} className="border-2 rounded-2xl p-2 m-1 flex flex-col gap-0.5">
-
-                  <div>{todo.title}</div>
-                  <div>{todo.description}</div>
-                  <div>
-                    <button onClick={()=>handleDelete(todo._id)} className="border-2 p-1 rounded-full hover:bg-red-400 cursor-pointer">delete todo</button>
-                  </div>
-                  {
-                    (!todo.completed)?<div>
-                      <button onClick={()=>handlePut(todo._id)} className="border-2 p-1 rounded-full hover:bg-green-400 cursor-pointer">mark as complete</button>
-                    </div> : <div className="font-bold">
-                      Done!
-                    </div>
-                  }
-                </div>
-              )
-            })
-          }
-        </div>:
+        <form onSubmit={handleSubmit} className="my-2 flex flex-col gap-2">
+          <div><input name="title" placeholder="Enter a Title" onChange={handleChange} value={input.title} className="border-2 p-1" required></input></div>
+          <div><input name="description" placeholder="Enter a Description" onChange={handleChange} value={input.description} className="border-2 p-1" required></input></div>
+          <div><button type="submit" className="border-2 p-1 rounded-full hover:bg-green-400 cursor-pointer">Add todo</button></div>
+        </form>
         <div>
-          Failed to fetch todos!
-        </div>
-        }
+          <div className="font-bold underline">Todos :</div>
+          {
+            loading?<div>loading...</div>
+            :
+            todos?
+            todos.length==0?<div className="border-2">
+              Create a Todo to see it here!
+            </div>:
+            <div className="max-h-80 overflow-y-auto border-2">
+            {
+              todos.map((todo:any,index)=>{
+                return (
+                  <div key={index} className="border-2 rounded-2xl p-2 m-1 flex flex-col gap-0.5">
 
-      </div>
+                    <div>{todo.title}</div>
+                    <div>{todo.description}</div>
+                    <div>
+                      <button onClick={()=>handleDelete(todo._id)} className="border-2 p-1 rounded-full hover:bg-red-400 cursor-pointer">delete todo</button>
+                    </div>
+                    {
+                      (!todo.completed)?<div>
+                        <button onClick={()=>handlePut(todo._id)} className="border-2 p-1 rounded-full hover:bg-green-400 cursor-pointer">mark as complete</button>
+                      </div> : <div className="font-bold">
+                        Done!
+                      </div>
+                    }
+                  </div>
+                )
+              })
+            }
+          </div>:
+          <div>
+            Failed to fetch todos!
+          </div>
+          }
+
+        </div>
+
+      </div>}
+      
     </div>
     </div>
 
